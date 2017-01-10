@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<repositories version="1.0">
+	<repo quality="experimental" status="unofficial">
+		<name>mutik</name>
+		<description lang="en">Mutik's Gentoo Overlay.</description>
+		<homepage>https://github.com/mutik/gentoo</homepage>
+		<owner type="person">
+            <name>Mateusz Teclaw</name>
+			<email>teclaw.mateusz@gmail.com</email>
+		</owner>
+		<source type="git">git://github.com/mutik/gentoo.git</source>
+        <feed>https://github.com/mutik/gentoo/commits/master.atom</feed>
+	</repo>
+</repositories>
