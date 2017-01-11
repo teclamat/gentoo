@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=>=dev-libs/libusb-1.0.20[udev] media-libs/libjpeg-turbo opengl? ( virtual/opengl ) opengl? ( >=media-libs/glfw-3.0.0 ) vaapi? ( x11-libs/libva ) doc? ( app-doc/doxygen ) openni2? ( dev-libs/OpenNI2 ) sys-devel/make >=dev-util/cmake-3.5.2 virtual/pkgconfig
+DESCRIPTION=Open source cross-platform driver for Kinect for Windows v2 devices.
+EAPI=5
+HOMEPAGE=https://github.com/OpenKinect/libfreenect2
+IUSE=+opengl -vaapi -cuda -opencl -utils -static-libs -doc -openni2
+KEYWORDS=~x86 ~amd64
+LICENSE=GPL-2
+RDEPEND=virtual/udev vaapi? ( media-libs/mesa[vaapi] )
+SLOT=2
+SRC_URI=https://github.com/OpenKinect/libfreenect2/archive/v0.2.0.tar.gz
+_eclasses_=cmake-utils	fa4d8052a1ccf4fbbfa76361bffebe42	eutils	017377e73405d964cd0137088cddb9c3	flag-o-matic	7366202dd55cb8f018f5d450d54e7749	multilib	165fc17c38d1b11dac2008280dab6e80	multiprocessing	66b3bf714f8cfc1b6494db5269b4666e	toolchain-funcs	1b1da0c45c555989dc5d832b54880783	udev	73058269b3e70e34e084fa3981282338	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_md5_=140cf47a086c1fee9d6def25d370f5d0
