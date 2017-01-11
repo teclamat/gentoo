@@ -18,7 +18,7 @@ IUSE="+opengl -vaapi -cuda -opencl -utils -static-libs -doc"
 # properly handle opencl!! 
 
 DEPEND="
-    >=dev-libs/libusb-1.0.20
+    >=dev-libs/libusb-1.0.20[udev]
     media-libs/libjpeg-turbo
     opengl? ( virtual/opengl )
     opengl? ( >=media-libs/glfw-3.0.0 )
