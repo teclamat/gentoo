@@ -7,13 +7,13 @@ inherit cmake-utils versionator udev
 
 DESCRIPTION="Open source cross-platform driver for Kinect for Windows v2 devices."
 HOMEPAGE="https://github.com/OpenKinect/libfreenect2"
-SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/v0.$(get_after_major_version).tar.gz"
+SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/v${PV}.tar.gz"
 
 LICENSE="GPL-2"
-SLOT="2"
+SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-IUSE="+opengl -vaapi -cuda -opencl -utils -static-libs -doc"
+IUSE="+opengl -vaapi -cuda -opencl +protonect -static-libs -doc"
 # properly handle cuda - propertiary nvidia driver, detect nouveau and die etc
 # properly handle opencl!! 
 
@@ -46,8 +46,8 @@ src_unpack()
         unpack ${A}
     fi
     # Fix for version naming mismatch
-    local PVMINOR=$(get_after_major_version)
-    S="$WORKDIR/${PN}2-0.${PVMINOR}"
+    # local PVMINOR=$(get_after_major_version)
+    # S="$WORKDIR/${PN}2-0.${PVMINOR}"
 }
 
 src_configure()
@@ -59,7 +59,7 @@ src_configure()
     local mycmakeargs=(
         "-DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE"
         ${sharedlibs}
-        $(cmake-utils_use_build utils EXAMPLES)
+        $(cmake-utils_use_build protonect EXAMPLES)
         -DENABLE_CXX11=ON
         $(cmake-utils_use_enable opencl OPENCL)
         $(cmake-utils_use_enable cuda CUDA)
@@ -96,7 +96,7 @@ src_install()
     fi
 
     # Utils binaries
-    if use utils ; then
+    if use protonect ; then
         dobin ${BUILD_DIR}/bin/Protonect
     fi
     
