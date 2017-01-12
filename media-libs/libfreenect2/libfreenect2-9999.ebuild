@@ -9,7 +9,7 @@ DESCRIPTION="Open source cross-platform driver for Kinect for Windows v2 devices
 HOMEPAGE="https://github.com/OpenKinect/libfreenect2"
 
 if [[ $PV = 9999* ]]; then
-    SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/master.zip -> ${P}.zip"
+    SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/master.zip"
 else
     SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/v${PV}.tar.gz"
     KEYWORDS="~x86 ~amd64"
