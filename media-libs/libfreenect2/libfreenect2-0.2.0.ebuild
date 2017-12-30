@@ -58,9 +58,9 @@ src_configure()
     if use static-libs ; then
         sharedlibs="-DBUILD_SHARED_LIBS=OFF"
     fi
-    local libsuffix=""
+    local libsuffix="-DCMAKE_INSTALL_LIBDIR=lib"
     if [ ${ARCH} == "amd64" ]; then
-        libsuffix="-DLIB_SUFFIX=64"
+        libsuffix="-DCMAKE_INSTALL_LIBDIR=lib64"
     fi
     local mycmakeargs=(
         ${libsuffix}
