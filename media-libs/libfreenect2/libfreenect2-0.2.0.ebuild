@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
-inherit cmake-utils versionator udev
+EAPI=6
+inherit cmake-utils cmake-multilib versionator udev
 
 DESCRIPTION="Open source cross-platform driver for Kinect for Windows v2 devices."
 HOMEPAGE="https://github.com/OpenKinect/libfreenect2"
@@ -45,8 +45,10 @@ RDEPEND="
 src_unpack()
 {
     unpack ${A}
-    cd "${S}"
-    epatch "${FILESDIR}"/lib64fix.patch 
+    if [ ${ARCH} == "amd64" ]; then
+        cd "${S}"
+        epatch "${FILESDIR}/lib64fix.patch"
+    fi
     # Fix for version naming mismatch
     # local PVMINOR=$(get_after_major_version)
     # S="$WORKDIR/${PN}2-0.${PVMINOR}"
@@ -59,16 +61,16 @@ src_configure()
         sharedlibs="-DBUILD_SHARED_LIBS=OFF"
     fi
     local mycmakeargs=(
-        "-DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE"
+        -DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE
         ${sharedlibs}
-        $(cmake-utils_use_build protonect EXAMPLES)
+        -DBUILD_EXAMPLES=$(usex protonect)
         -DENABLE_CXX11=ON
-        $(cmake-utils_use_enable opencl OPENCL)
-        $(cmake-utils_use_enable cuda CUDA)
-        $(cmake-utils_use_enable opengl OPENGL)
-        $(cmake-utils_use_enable vaapi VAAPI)
-        "-DENABLE_TEGRAJPEG=OFF"
-        "-DENABLE_PROFILING=OFF"
+        -DENABLE_OPENGL=$(usex opengl)
+        -DENABLE_OPENCL=$(usex opencl)
+        -DENABLE_CUDA=$(usex cuda)
+        -DENABLE_VAAPI=$(usex vaapi)
+        -DENABLE_TEGRAJPEG=OFF
+        -DENABLE_PROFILING=OFF
     )
 
     cmake-utils_src_configure
