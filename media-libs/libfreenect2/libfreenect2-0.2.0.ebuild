@@ -44,9 +44,9 @@ RDEPEND="
 
 src_unpack()
 {
-    if [ "${A}" != "" ]; then
-        unpack ${A}
-    fi
+    unpack ${A}
+    cd "${S}"
+    epatch "${FILESDIR}"/lib64fix.patch 
     # Fix for version naming mismatch
     # local PVMINOR=$(get_after_major_version)
     # S="$WORKDIR/${PN}2-0.${PVMINOR}"
@@ -58,12 +58,7 @@ src_configure()
     if use static-libs ; then
         sharedlibs="-DBUILD_SHARED_LIBS=OFF"
     fi
-    local libsuffix="-DCMAKE_INSTALL_LIBDIR=lib"
-    if [ ${ARCH} == "amd64" ]; then
-        libsuffix="-DCMAKE_INSTALL_LIBDIR=lib64"
-    fi
     local mycmakeargs=(
-        ${libsuffix}
         "-DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE"
         ${sharedlibs}
         $(cmake-utils_use_build protonect EXAMPLES)
