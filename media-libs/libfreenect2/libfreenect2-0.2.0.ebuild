@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -8,12 +8,8 @@ inherit cmake-utils versionator udev
 DESCRIPTION="Open source cross-platform driver for Kinect for Windows v2 devices."
 HOMEPAGE="https://github.com/OpenKinect/libfreenect2"
 
-if [[ $PV = 9999* ]]; then
-    SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/master.zip -> ${P}.zip"
-else
-    SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/v${PV}.tar.gz"
-    KEYWORDS="~x86 ~amd64"
-fi
+SRC_URI="https://github.com/OpenKinect/libfreenect2/archive/v${PV}.tar.gz"
+KEYWORDS="~x86 ~amd64"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -62,7 +58,12 @@ src_configure()
     if use static-libs ; then
         sharedlibs="-DBUILD_SHARED_LIBS=OFF"
     fi
+    local libsuffix=""
+    if [ ${ARCH} == "amd64" ]; then
+        libsuffix="-DLIB_SUFFIX=64"
+    fi
     local mycmakeargs=(
+        ${libsuffix}
         "-DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE"
         ${sharedlibs}
         $(cmake-utils_use_build protonect EXAMPLES)
