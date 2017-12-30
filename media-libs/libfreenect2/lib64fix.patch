@@ -1,0 +1,15 @@
+--- CMakeLists.txt	2017-12-30 02:44:32.271296953 +0100
++++ CMakeLists.txt	2017-12-30 02:45:17.588349812 +0100
+@@ -84,9 +84,9 @@
+ #set the default path for built executables to the "bin" directory
+ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+ 
+-#set the default path for built libraries to the "lib" directory
+-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
++#set the default path for built libraries to the "lib64" directory
++SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib64)
++SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib64)
+ 
+ # dependencies
+ FIND_PACKAGE(PkgConfig)    # try find PKGConfig as it will be used if found
