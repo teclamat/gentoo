@@ -1,0 +1,55 @@
+--- CMakeLists.txt	2017-12-30 03:36:08.034222863 +0100
++++ CMakeLists.txt	2017-12-30 03:39:24.000000000 +0100
+@@ -84,9 +84,9 @@
+ #set the default path for built executables to the "bin" directory
+ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+ 
+-#set the default path for built libraries to the "lib" directory
+-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
++#set the default path for built libraries to the "lib64" directory
++SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib64)
++SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib64)
+ 
+ # dependencies
+ FIND_PACKAGE(PkgConfig)    # try find PKGConfig as it will be used if found
+@@ -384,7 +384,7 @@
+ # Both command line -DCMAKE_INSTALL_RPATH=... and CMake GUI settings are accepted.
+ #
+ # Anyway if wrong versions of libusb is used, errors will be reported explicitly.
+-IF(NOT DEFINED CMAKE_INSTALL_RPATH AND NOT ${LibUSB_LIBDIR} MATCHES "^/usr/lib")
++IF(NOT DEFINED CMAKE_INSTALL_RPATH AND NOT ${LibUSB_LIBDIR} MATCHES "^/usr/lib64")
+   SET(CMAKE_INSTALL_RPATH ${LibUSB_LIBDIR} CACHE STRING "Set RPATH for a private libusb")
+ ELSEIF(DEFINED CMAKE_INSTALL_RPATH)
+   SET(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_RPATH} CACHE STRING "Set RPATH for a private libusb")
+@@ -421,11 +421,11 @@
+ CONFIGURE_FILE(freenect2.cmake.in "${PROJECT_BINARY_DIR}/freenect2Config.cmake" @ONLY)
+ CONFIGURE_FILE(freenect2.pc.in "${PROJECT_BINARY_DIR}/freenect2.pc" @ONLY)
+ 
+-INSTALL(TARGETS freenect2 DESTINATION lib RUNTIME DESTINATION bin)
++INSTALL(TARGETS freenect2 DESTINATION lib64 RUNTIME DESTINATION bin)
+ INSTALL(DIRECTORY "${MY_DIR}/include/${PROJECT_NAME}" DESTINATION include PATTERN "*.in" EXCLUDE)
+ INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}" DESTINATION include)
+-INSTALL(FILES "${PROJECT_BINARY_DIR}/freenect2Config.cmake" DESTINATION lib/cmake/freenect2/)
+-INSTALL(FILES "${PROJECT_BINARY_DIR}/freenect2.pc" DESTINATION lib/pkgconfig/)
++INSTALL(FILES "${PROJECT_BINARY_DIR}/freenect2Config.cmake" DESTINATION lib64/cmake/freenect2/)
++INSTALL(FILES "${PROJECT_BINARY_DIR}/freenect2.pc" DESTINATION lib64/pkgconfig/)
+ 
+ ADD_SUBDIRECTORY(${MY_DIR}/doc)
+ 
+@@ -448,12 +448,12 @@
+     TARGET_LINK_LIBRARIES(freenect2-openni2 freenect2 ${LIBFREENECT2_THREADING_LIBRARIES})
+     SET_TARGET_PROPERTIES(freenect2-openni2 PROPERTIES SOVERSION 0)
+     IF(NOT ${CMAKE_INSTALL_PREFIX} MATCHES "^/usr")
+-      SET_TARGET_PROPERTIES(freenect2-openni2 PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
++      SET_TARGET_PROPERTIES(freenect2-openni2 PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib64")
+     ENDIF()
+-    INSTALL(TARGETS freenect2-openni2 DESTINATION lib/OpenNI2/Drivers RUNTIME DESTINATION bin)
++    INSTALL(TARGETS freenect2-openni2 DESTINATION lib64/OpenNI2/Drivers RUNTIME DESTINATION bin)
+     ADD_CUSTOM_TARGET(install-openni2
+       DEPENDS freenect2-openni2
+-      COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_INSTALL_PREFIX}/lib/OpenNI2/Drivers/" "${OpenNI2_LIBRARY_DIR}/OpenNI2/Drivers/"
++      COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_INSTALL_PREFIX}/lib64/OpenNI2/Drivers/" "${OpenNI2_LIBRARY_DIR}/OpenNI2/Drivers/"
+       VERBATIM
+     )
+   ENDIF()
