@@ -11,7 +11,7 @@ SRC_URI="https://launchpad.net/shutter/0.9x/${PV}/+download/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="drawing exif"
+IUSE="-drawing -exif"
 
 RDEPEND="dev-lang/perl
 	drawing? ( dev-perl/Goo-Canvas )
