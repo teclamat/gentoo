@@ -7,7 +7,7 @@ Index: shutter/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm
 ===================================================================
 --- shutter.orig/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm	2015-11-05 21:34:34.222313258 -0500
 +++ shutter/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm	2015-11-05 21:35:37.299461116 -0500
-@@ -53,7 +53,8 @@
+@@ -56,7 +56,8 @@
  
  sub xdg_open {
  	my ( $self, $dialog, $link, $user_data ) = @_;
