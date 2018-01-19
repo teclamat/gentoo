@@ -1,5 +1,5 @@
---- shutter-0.94,orig/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm	2017-11-05 21:34:34.222313258 -0500
-+++ shutter-0.94/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm	2017-11-05 21:35:37.299461116 -0500
+--- a/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm
++++ b/share/shutter/resources/modules/Shutter/App/HelperFunctions.pm
 @@ -53,7 +53,8 @@
  
  sub xdg_open {
