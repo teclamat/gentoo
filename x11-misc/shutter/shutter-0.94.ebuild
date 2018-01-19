@@ -11,11 +11,12 @@ SRC_URI="https://launchpad.net/shutter/0.9x/${PV}/+download/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="-drawing -exif"
+IUSE="-drawing -exif -unity"
 
 RDEPEND="dev-lang/perl
 	drawing? ( dev-perl/Goo-Canvas )
 	exif? ( media-libs/exiftool )
+	unity? ( dev-libs/libappindicator )
 	dev-perl/libxml-perl
 	dev-perl/gnome2-canvas
 	dev-perl/gnome2-perl
@@ -26,6 +27,7 @@ RDEPEND="dev-lang/perl
 	dev-perl/File-HomeDir
 	dev-perl/File-Which
 	dev-perl/JSON
+	dev-perl/JSON-XS
 	dev-perl/File-Copy-Recursive
 	dev-perl/File-MimeInfo
 	dev-perl/Locale-gettext
@@ -46,10 +48,6 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.90-webphoto.patch
 	use drawing || eapply "${FILESDIR}"/${PN}-0.90-goocanvas.patch
-
-	# 560426
-	#cd "${S}"
-	#eapply "${FILESDIR}"/${P}-insecure_use_of_system.patch
 
 	#Fix tray icon because it doesn't pick the right icon using various themes
 	sed -i -e "/\$tray->set_from_icon_name/s:set_from_icon_name:set_from_file:" \
@@ -78,10 +76,7 @@ src_install() {
 
 pkg_postinst() {
 	xdg_desktop_database_update
-	elog ""
-	elog "The following optional dependencies can be used to provide"
-	elog "additional functionality:"
-	elog "- dev-libs/libappindicator       : Status icon support for Unity"
-	elog "- dev-perl/JSON-XS               : vgy.me image hosting support"
-	elog""
+	#elog ""
+	#elog "The following use flags can be used to provide:"
+	#elog "exif: "
 }
