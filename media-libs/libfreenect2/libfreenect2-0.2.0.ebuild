@@ -42,16 +42,18 @@ RDEPEND="
     vaapi? ( media-libs/mesa[vaapi] )
 "
 
-src_unpack()
+src_prepare()
 {
-    unpack ${A}
+    #unpack ${A}
+    cd "${S}"
     if [ ${ARCH} == "amd64" ]; then
-        cd "${S}"
         epatch "${FILESDIR}/lib64fix.patch"
     fi
+    epatch "${FILESDIR}/${P}-bind-deprecated.patch"
     # Fix for version naming mismatch
     # local PVMINOR=$(get_after_major_version)
     # S="$WORKDIR/${PN}2-0.${PVMINOR}"
+    eapply_user
 }
 
 src_configure()
