@@ -1,0 +1,10 @@
+[mutik-overlay]
+
+# Personal Gentoo overlay.
+# Maintainer: mutik (https://github.com/mutik)
+
+location = /usr/local/portage/mutik-overlay
+sync-type = git
+sync-uri = https://github.com/mutik/gentoo.git
+priority = 50
+auto-sync = Yes
