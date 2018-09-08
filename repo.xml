@@ -2,7 +2,7 @@
 
 <repositories version="1.0">
 	<repo priority="60" quality="experimental" status="unofficial">
-		<name>mutik</name>
+		<name>mutik-overlay</name>
 		<description lang="en">Mutik's Gentoo Overlay.</description>
 		<homepage>https://github.com/mutik/gentoo</homepage>
 		<owner type="person">
