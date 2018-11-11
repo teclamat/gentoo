@@ -13,6 +13,107 @@ case "${EAPI:-0}" in
 	*) die "Unsupported EAPI='${EAPI}' for '${ECLASS}'" ;;
 esac
 
+### BEGIN: standard tool wrappers
+
+# `NO_V` env var implementation for use in standard tool wrappers
+_NO_V() {
+	echo "$( (( NO_V )) || echo '--verbose' )"
+}
+
+rpushd() {
+	pushd "${@}" >/dev/null || die -n
+}
+
+rpopd() {
+	popd "${@}" >/dev/null || die -n
+}
+
+rmkdir() {
+	mkdir $(_NO_V) -p "${@}" || die -n
+}
+
+rcp() {
+	cp $(_NO_V) "${@}" || die -n
+}
+
+rmv() {
+	mv $(_NO_V) "${@}" || die -n
+}
+
+rln() {
+	ln $(_NO_V) "${@}" || die -n
+}
+
+rchown() {
+	chown $(_NO_V) "${@}" || die -n
+}
+
+rchmod() {
+	chmod $(_NO_V) "${@}" || die -n
+}
+
+rrm() {
+	rm $(_NO_V) --interactive=never --preserve-root --one-file-system "${@}" || die -n
+}
+
+rrmdir() {
+	rmdir $(_NO_V) "${@}" || die -n
+}
+
+rsed() {
+	local diff_prog=()
+
+	if (( RINDEAL_DEBUG )) ; then
+		diff_prog=( diff -u )
+		if command -v colordiff >/dev/null ; then
+			diff_prog=( colordiff -u )
+		fi
+
+		local -A file_list
+		local pretty_sed=()
+		local i record_files=0
+		for (( i=1 ; i <= $# ; i++ )) ; do
+			local arg="${!i}"
+			if (( record_files )) ; then
+				file_list+=( ["${arg}"]="${RANDOM}${RANDOM}${RANDOM}" )
+			else
+				if [[ "${arg}" == "--" ]] ; then
+					record_files=1
+				else
+					pretty_sed+=( "'${arg}'" )
+				fi
+			fi
+		done
+
+		(( ${#file_list[*]} )) || die -n
+
+		local temp_dir="$(mktemp -d)" || die -n
+
+		## backup original versions
+		local f
+		for f in "${!file_list[@]}" ; do
+			cp -- "${f}" "${temp_dir}/${file_list["${f}"]}" || die -n
+		done
+	fi
+
+	sed "${@}" || die -n
+
+	if (( ${#diff_prog[*]} )) ; then
+		local f
+		for f in "${!file_list[@]}" ; do
+			echo "*** diff of '${f}'"
+			echo "*** for sed ${pretty_sed[*]}:"
+			"${diff_prog[@]}" "${temp_dir}/${file_list["${f}"]}" "${f}"
+			local code=$?
+			(( code == 2 )) && die -n
+			(( code == 0 )) && eqawarn "sed didn't change anything"
+		done
+		rm -r -- "${temp_dir}" || die -n
+	fi
+}
+
+### END: standard tool wrappers
+
 ## functions: get_version_component_range, get_major_version
 inherit versionator
 
